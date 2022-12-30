@@ -74,8 +74,14 @@ namespace Usenet.Nntp
         /// <param name="group">The name of the group to select.</param>
         /// <param name="range">Only include article numbers within this range in the list.</param>
         /// <returns>A group response object.</returns>
-        public NntpGroupResponse ListGroup(string group, NntpArticleRange range) =>
-            connection.MultiLineCommand($"LISTGROUP {group.ThrowIfNullOrWhiteSpace(nameof(group))} {range}", new ListGroupResponseParser());
+        public NntpGroupResponse ListGroup(string group, NntpArticleRange range)
+        {
+            string groupName = group.ThrowIfNullOrWhiteSpace(nameof(group));
+            string command = ($"LISTGROUP {groupName} {range}");
+            NntpGroupResponse response = connection.MultiLineCommand(command,
+                                            new ListGroupResponseParser());
+            return response;
+        }
 
         /// <summary>
         /// The <a href="https://tools.ietf.org/html/rfc3977#section-6.1.2">LISTGROUP</a> 
@@ -127,7 +133,7 @@ namespace Usenet.Nntp
         /// <returns>An article response object.</returns>
         public NntpArticleResponse Article(NntpMessageId messageId) =>
             connection.MultiLineCommand(
-                $"ARTICLE {messageId.ThrowIfNullOrWhiteSpace(nameof(messageId))}", 
+                $"ARTICLE {messageId.ThrowIfNullOrWhiteSpace(nameof(messageId))}",
                 new ArticleResponseParser(ArticleRequestType.Article));
 
         /// <summary>
@@ -162,7 +168,7 @@ namespace Usenet.Nntp
         /// <returns>An article response object.</returns>
         public NntpArticleResponse Head(NntpMessageId messageId) =>
             connection.MultiLineCommand(
-                $"HEAD {messageId.ThrowIfNullOrWhiteSpace(nameof(messageId))}", 
+                $"HEAD {messageId.ThrowIfNullOrWhiteSpace(nameof(messageId))}",
                 new ArticleResponseParser(ArticleRequestType.Head));
 
         /// <summary>
@@ -199,7 +205,7 @@ namespace Usenet.Nntp
         /// <returns>An article response object.</returns>
         public NntpArticleResponse Body(NntpMessageId messageId) =>
             connection.MultiLineCommand(
-                $"BODY {messageId.ThrowIfNullOrWhiteSpace(nameof(messageId))}", 
+                $"BODY {messageId.ThrowIfNullOrWhiteSpace(nameof(messageId))}",
                 new ArticleResponseParser(ArticleRequestType.Body));
 
         /// <summary>

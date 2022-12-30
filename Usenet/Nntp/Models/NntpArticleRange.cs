@@ -60,8 +60,11 @@ namespace Usenet.Nntp.Models
         /// Returns the text representation of the value formatted according to the NNTP specifications.
         /// </summary>
         /// <returns>The text representation of the value formatted according to the NNTP specifications</returns>
-        public override string ToString() => 
-            To == null ? $"{From}-" : (To.Value == From ? From.ToString() : $"{From}-{To.Value}");
+        public override string ToString()
+        {
+            string result = To == null ? $"{From}-" : (To.Value == From ? From.ToString() : $"{From}-{To.Value}");
+            return result;
+        }
 
         /// <summary>
         /// Returns the hash code for this instance.
