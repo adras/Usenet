@@ -40,5 +40,11 @@ namespace Usenet.Nntp
         {
             connection.Stream?.ResetCounters();
         }
+
+        /// <summary>
+        /// Returns true when the underlying TCP connection is still active
+        /// </summary>
+        public bool IsConnected { get => connection.IsConnected; }
+        
     }
 }

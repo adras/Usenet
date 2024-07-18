@@ -28,11 +28,14 @@ namespace Usenet.Nntp
         /// <inheritdoc/>
         public CountingStream Stream { get; private set; }
 
+        public bool IsConnected => client?.Connected ?? false;
+
         /// <inheritdoc/>
         public async Task<TResponse> ConnectAsync<TResponse>(string hostname, int port, bool useSsl, IResponseParser<TResponse> parser)
         {
             log.LogInformation("Connecting: {hostname} {port} (Use SSl = {useSsl})", hostname, port, useSsl);
             await client.ConnectAsync(hostname, port);
+
             Stream = await GetStreamAsync(hostname, useSsl);
             writer = new StreamWriter(Stream, UsenetEncoding.Default) { AutoFlush = true };
             reader = new NntpStreamReader(Stream, UsenetEncoding.Default);

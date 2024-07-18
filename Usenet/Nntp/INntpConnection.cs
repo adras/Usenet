@@ -58,5 +58,10 @@ namespace Usenet.Nntp
         /// The stream used by the connection.
         /// </summary>
         CountingStream Stream { get; }
+
+        /// <summary>
+        /// Returns true when the underlying TCP connection is still active
+        /// </summary>
+        bool IsConnected {get;}
     }
 }
